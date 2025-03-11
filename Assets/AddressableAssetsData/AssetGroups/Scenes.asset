@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Scenes
+  m_EditorClassIdentifier: 
+  m_GroupName: Scenes
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 85655cc860f3637408e59c3dc53fc42d
+  m_SerializeEntries:
+  - m_GUID: d426299f47b9a2b4987fc6e8e828382f
+    m_Address: Forest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 1dda7f5a7911baa4a8b7bdf26b5ef8ea
+    m_Address: Persistent
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: 2cda990e2423bbf4892e6590ba056729
+    m_Address: Cave
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  - m_GUID: ffcd3f73947e92b4a8e7b1b3b8e00f35
+    m_Address: Menu
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: fe658c05513e555458e67c83b8d04925, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: a0adf40dcc1956f44a0ef9d67c403cac, type: 2}
+    - {fileID: 11400000, guid: d12e9da239796664fbc71402a97b7119, type: 2}
