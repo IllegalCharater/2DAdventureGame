@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3705598786140342553}
   - component: {fileID: 3705598786140342552}
   - component: {fileID: 3705598786140342554}
+  - component: {fileID: 5263498960432503698}
   m_Layer: 9
   m_Name: AttackArea
   m_TagString: Untagged
@@ -143,6 +144,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5263498960432503698
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3705598786140342565}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88554245996fa5e449bee52cd10a0075, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ID: 860f3f39-a4dc-42fa-89c0-c9218becee47
+  persistentType: 0
 --- !u!1 &3705598786761171801
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +216,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

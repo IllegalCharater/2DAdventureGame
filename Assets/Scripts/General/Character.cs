@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour,ISaveable
 {
     [Header("事件监听")]
     public VoidEventSO newGameEvent;
@@ -24,7 +24,7 @@ public class Character : MonoBehaviour
     public UnityEvent<Transform> OnTakeDamage;
     //死亡
     public UnityEvent OnDeath;
-    private void NewGamemStart()
+    private void NewGameStart()
     {
         currentHealth = maxHealth;
         currentPower = maxPower;
@@ -33,17 +33,21 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        NewGamemStart();
+        NewGameStart();
     }
 
     private void OnEnable()
     {
-        newGameEvent.OnEventRaised += NewGamemStart;
+        newGameEvent.OnEventRaised += NewGameStart;
+        ISaveable saveable = this;
+        saveable.RegisterSaveData();
     }
 
     private void OnDisable()
     {
-        newGameEvent.OnEventRaised -= NewGamemStart;
+        newGameEvent.OnEventRaised -= NewGameStart;
+        ISaveable saveable = this;
+        saveable.UnregisterSaveData();
     }
 
     private void Update()
@@ -102,6 +106,7 @@ public class Character : MonoBehaviour
         OnHealthChanged?.Invoke(this);
     }
 
+    //遇水死亡
     private void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Water"))
@@ -109,6 +114,31 @@ public class Character : MonoBehaviour
             currentHealth = 0;
             OnHealthChanged?.Invoke(this);
             OnDeath?.Invoke();//死亡并刷新血条UI
+        }
+    }
+
+    public DataDefination GetDataID()
+    {
+        return GetComponent<DataDefination>();
+    }
+
+    public void GetSaveDate(Data data)
+    {
+        if (data.characterPosDict.ContainsKey(GetDataID().ID))
+        {
+            data.characterPosDict[GetDataID().ID] = transform.position;
+        }
+        else
+        {
+            data.characterPosDict.Add(GetDataID().ID, transform.position);
+        }
+    }
+
+    public void LoadData(Data data)
+    {
+        if (data.characterPosDict.ContainsKey(GetDataID().ID))
+        {
+            transform.position = data.characterPosDict[GetDataID().ID];
         }
     }
 }
