@@ -47,6 +47,8 @@ public class PlayerController : MonoBehaviour
     [Header("监听事件")]
     public SceneLoadEventSO sceneLoadEvent;
     public VoidEventSO afterLoadSceneEvent;
+    public VoidEventSO loadDataEvent;
+    public VoidEventSO afterLoadDataEvent;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -95,12 +97,30 @@ public class PlayerController : MonoBehaviour
         inputControl.Enable();
         sceneLoadEvent.LoadRequestEvent += OnLoadEvent;
         afterLoadSceneEvent.OnEventRaised += OnAfterSceneLoadedEvent;
+        loadDataEvent.OnEventRaised += OnLoadDataEvent;
+        afterLoadDataEvent.OnEventRaised += OnAfterLoadDataEvent;
     }
 
+    private void OnAfterLoadDataEvent()
+    {
+        //Debug.Log("load finish");
+        isDead = false;
+    }
+
+    //加载数据时
+    private void OnLoadDataEvent()
+    {
+        //Debug.Log("load");
+        
+    }
+    //加载数据完成时
+    
+    //加载完成后关闭控制器
     private void OnAfterSceneLoadedEvent()
     {
         inputControl.Gameplay.Enable();
     }
+    //加载场景时关闭控制器
     private void OnLoadEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
     {
         inputControl.Gameplay.Disable();
@@ -112,6 +132,8 @@ public class PlayerController : MonoBehaviour
         inputControl.Disable();
         sceneLoadEvent.LoadRequestEvent -= OnLoadEvent;
         afterLoadSceneEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
+        loadDataEvent.OnEventRaised -= OnLoadDataEvent;
+        afterLoadDataEvent.OnEventRaised -= OnAfterLoadDataEvent;
     }
 
     private void Update()
@@ -176,9 +198,13 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("normal jump");
             rb.AddForce(Vector2.up * jumpForce, ForceMode2D.Impulse);
             isSlide = false;
+            isSpeedup = false;
             //Debug.Log("break slide");
-            if(slideCoroutine != null)                
+            if (slideCoroutine != null)
+            {
                 StopCoroutine(slideCoroutine);
+                gameObject.layer = LayerMask.NameToLayer("Player");
+            }
         }
         else if(physicsCheck.onWall)
         {
@@ -211,6 +237,7 @@ public class PlayerController : MonoBehaviour
             slideDisCounter = slideDistance;
             slideCoroutine=StartCoroutine(TriggerSlide());
         }
+        
     }
 
     IEnumerator TriggerSlide()
@@ -258,6 +285,7 @@ public class PlayerController : MonoBehaviour
 
     public void PlayerDead()
     {
+        //Debug.Log("die!");
         isDead = true;
         inputControl.Gameplay.Disable();
         
@@ -269,6 +297,9 @@ public class PlayerController : MonoBehaviour
     {
         //空中时切换光滑物理材质
         capsuleCollider.sharedMaterial = physicsCheck.isGround? normalMaterial: wallMaterial;
+        //空中重置加速状态
+        if(!physicsCheck.isGround)
+            isSpeedup = false;
         //爬墙时缓慢下降
         if(physicsCheck.onWall&&!wallJump)
             rb.velocity=new Vector2(rb.velocity.x,rb.velocity.y/2f);

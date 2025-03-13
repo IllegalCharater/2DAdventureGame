@@ -207,7 +207,7 @@ MonoBehaviour:
   manual: 1
   isPlayer: 0
   bottomOffset: {x: -0.55, y: 0}
-  leftOffset: {x: -1.15, y: 0.6}
+  leftOffset: {x: -1.3, y: 0.6}
   rightOffset: {x: 0.85, y: 0.6}
   checkRadius: 0.1
   groundLayer:

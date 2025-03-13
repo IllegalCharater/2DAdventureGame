@@ -6,6 +6,8 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour,ISaveable
 {
+    // public bool isPlayer;
+    // PlayerController playerController;
     [Header("事件监听")]
     public VoidEventSO newGameEvent;
     [Header("基本属性")] 
@@ -24,6 +26,13 @@ public class Character : MonoBehaviour,ISaveable
     public UnityEvent<Transform> OnTakeDamage;
     //死亡
     public UnityEvent OnDeath;
+
+    private void Awake()
+    {
+        // if(isPlayer)
+        //     playerController = GetComponent<PlayerController>();
+    }
+
     private void NewGameStart()
     {
         currentHealth = maxHealth;
@@ -111,26 +120,41 @@ public class Character : MonoBehaviour,ISaveable
     {
         if (other.CompareTag("Water"))
         {
+            // if(isPlayer)
+            // {
+            //     if (playerController.isDead)
+            //     {
+            //         Debug.Log("isDead");
+            //         return;
+            //     }
+            // }
+            //Debug.Log("water");
             currentHealth = 0;
             OnHealthChanged?.Invoke(this);
             OnDeath?.Invoke();//死亡并刷新血条UI
+            
         }
     }
 
+    public int Priority => 1;
     public DataDefination GetDataID()
     {
         return GetComponent<DataDefination>();
     }
 
-    public void GetSaveDate(Data data)
+    public void GetSaveData(Data data)
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
             data.characterPosDict[GetDataID().ID] = transform.position;
+            data.floatSaveDate[GetDataID().ID+"health"]= currentHealth;
+            data.floatSaveDate[GetDataID().ID+"power"]= currentPower;
         }
         else
         {
             data.characterPosDict.Add(GetDataID().ID, transform.position);
+            data.floatSaveDate.Add(GetDataID().ID+"health",currentHealth);
+            data.floatSaveDate.Add(GetDataID().ID+"power",currentPower);
         }
     }
 
@@ -139,6 +163,11 @@ public class Character : MonoBehaviour,ISaveable
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
             transform.position = data.characterPosDict[GetDataID().ID];
+            currentHealth = data.floatSaveDate[GetDataID().ID+"health"];
+            currentPower= data.floatSaveDate[GetDataID().ID+"power"];
+            
+            //更新UI
+            OnHealthChanged?.Invoke(this);
         }
     }
 }

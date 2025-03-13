@@ -7,7 +7,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : MonoBehaviour
+public class SceneLoader : MonoBehaviour,ISaveable
 {
     public Transform playerTrans;
     public Vector3 firstPosition;
@@ -47,12 +47,16 @@ public class SceneLoader : MonoBehaviour
     {
         LoadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         newGameEvent.OnEventRaised += NewGameStart;
+        ISaveable saveable = this;
+        saveable.RegisterSaveData();
     }
 
     private void OnDisable()
     {
         LoadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         newGameEvent.OnEventRaised -= NewGameStart;
+        ISaveable saveable = this;
+        saveable.UnregisterSaveData();
     }
 
     //开始新游戏
@@ -93,7 +97,7 @@ public class SceneLoader : MonoBehaviour
             fadeEvent.FadeIn(fadeTime);
         }
         yield return new WaitForSeconds(fadeTime);
-
+        
         //用广播事件调整血条
         sceneUnloadEvent.LoadRequestEvent(sceneToLoad,positionToGo,true);
         
@@ -123,7 +127,7 @@ public class SceneLoader : MonoBehaviour
         playerTrans.gameObject.SetActive(true);
         if (fadeScene)
         {
-            //变透明
+            //变亮
             fadeEvent.FadeOut(fadeTime);
         }
         isLoading = false;
@@ -132,6 +136,29 @@ public class SceneLoader : MonoBehaviour
         {
             //场景加载完成后事件
             afterSceneLoadedEvent.RaiseEvent();
+        }
+    }
+
+    public int Priority => 0;
+
+    public DataDefination GetDataID()
+    {
+        return GetComponent<DataDefination>();
+    }
+
+    public void GetSaveData(Data data)
+    {
+        data.SaveGameScene(currentScene);
+    }
+
+    public void LoadData(Data data) 
+    {
+        var playerID = playerTrans.GetComponent<DataDefination>().ID;
+        if (data.characterPosDict.ContainsKey(playerID))
+        {
+            positionToGo = data.characterPosDict[playerID];
+            sceneToLoad = data.GetSavedScene();
+            OnLoadRequestEvent(sceneToLoad,positionToGo,true);
         }
     }
 }
