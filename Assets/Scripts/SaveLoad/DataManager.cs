@@ -5,6 +5,9 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Serialization;
+using Newtonsoft.Json;
+using System.IO;
+
 
 [DefaultExecutionOrder(-100)]//优先运行
 public class DataManager : MonoBehaviour
@@ -18,6 +21,7 @@ public class DataManager : MonoBehaviour
     
     private List<ISaveable> saveableList = new List<ISaveable>();
     private Data saveData;
+    private string jsonFolder;
     private void Awake()
     {
         if (instance == null)
@@ -30,15 +34,12 @@ public class DataManager : MonoBehaviour
         }
         
         saveData = new Data();
+        
+        jsonFolder = Application.persistentDataPath+"/SaveData/";
+        
+        ReadSaveData();
     }
-
-    // private void Update()
-    // {
-    //     if (Keyboard.current.lKey.wasPressedThisFrame)
-    //     {
-    //         StartCoroutine(LoadData());
-    //     }
-    // }
+    
 
     private void OnEnable()
     {
@@ -80,10 +81,19 @@ public class DataManager : MonoBehaviour
             saveable.GetSaveData(saveData);
         }
 
-        foreach (var item in saveData.characterPosDict)
+        var resultPath=jsonFolder+"SaveData.json";
+        
+        var jsonData =JsonConvert.SerializeObject(saveData);
+
+        if (!File.Exists(resultPath))
         {
-            Debug.Log(item.Key+" "+item.Value);
+            Directory.CreateDirectory(jsonFolder);
         }
+        File.WriteAllText(resultPath,jsonData);
+        // foreach (var item in saveData.characterPosDict)
+        // {
+        //     Debug.Log(item.Key+" "+item.Value);
+        // }
     }
 
     private void LoadDataCoroutine()
@@ -122,7 +132,18 @@ public class DataManager : MonoBehaviour
     //         saveable.LoadData(saveData);
     //     }
     // }
-    
-    
+
+    private void ReadSaveData()
+    {
+        var resultPath=jsonFolder+"SaveData.json";
+
+        if (File.Exists(resultPath))
+        {
+            var stringData = File.ReadAllText(resultPath);
+            var jsonData = JsonConvert.DeserializeObject<Data>(stringData);
+            
+            saveData = jsonData;
+        }
+    }
 
 }

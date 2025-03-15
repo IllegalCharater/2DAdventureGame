@@ -113,6 +113,18 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
@@ -159,7 +171,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_2
+      name: joystick
       rect:
         serializedVersion: 2
         x: 374
@@ -327,7 +339,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_10
+      name: GreenButton
       rect:
         serializedVersion: 2
         x: 140
@@ -684,7 +696,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_27
+      name: BlueButton
       rect:
         serializedVersion: 2
         x: 140
@@ -1083,7 +1095,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_46
+      name: YellowButton
       rect:
         serializedVersion: 2
         x: 140
@@ -1377,7 +1389,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_60
+      name: Settings
       rect:
         serializedVersion: 2
         x: 50
@@ -1440,7 +1452,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_63
+      name: BrownPoint
       rect:
         serializedVersion: 2
         x: 189
@@ -1755,7 +1767,7 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Base-01_78
+      name: RedButton
       rect:
         serializedVersion: 2
         x: 140
@@ -1851,15 +1863,15 @@ TextureImporter:
     nameFileIdTable:
       Base-01_76: -1813672861
       Base-01_healthGreen: 1950130545
+      GreenButton: -713141562
+      BlueButton: -392756574
       Base-01_16: -1166524620
       Base-01_17: 246046300
       Base-01_24: -2089393924
-      Base-01_78: -1833111797
       Base-01_72: 1893049703
       Base-01_5: 1235922199
       Base-01_51: -1485742379
       Base-01_67: 1993158534
-      Base-01_2: -43342437
       Base-01_28: 1328807362
       Base-01_37: 4253085
       Base-01_21: -1956668948
@@ -1882,55 +1894,55 @@ TextureImporter:
       Base-01_42: 1149836944
       Base-01_30: -308724593
       Base-01_40: 1597729768
+      Base-01_73: -229621374
       Base-01_8: -1321342388
-      Base-01_60: 1093636192
       Base-01_43: -1829586611
       Base-01_25: 1691656863
+      Settings: 1093636192
       Base-01_44: 2123461897
-      Base-01_62: 1018503196
-      Base-01_27: -713141562
-      Base-01_50: 159065451
-      Base-01_46: -392756574
-      Base-01_33: 785978506
-      Base-01_80: 2009447182
-      Base-01_73: -391922770
-      Base-01_61: -229621374
-      Base-01_6: 195476905
-      Base-01_powerFrame: 136603814
-      Base-01_45: 2018947044
-      Base-01_55: 615931904
-      Base-01_53: -1561343604
-      Base-01_47: -1553083091
-      Base-01_19: 1940278061
-      Base-01_healthRed: 1186386852
-      Base-01_79: 1950317293
-      Base-01_9: -578694577
-      Base-01_10: 602554818
-      Base-01_26: -924617607
-      Base-01_66: 481691243
-      Base-01_69: 1114125106
-      Base-01_36: -277027555
-      Base-01_58: -688676665
-      Base-01_22: -276862575
-      Base-01_38: -1034228666
-      Base-01_48: -657967718
-      Base-01_56: 806116521
-      Base-01_18: 1167162666
-      Base-01_23: -1183252649
-      Base-01_54: 234537854
-      Base-01_faceFrame: 439647902
-      Base-01_59: 278848105
-      Base-01_52: 17108764
-      Base-01_77: -1733168732
-      Base-01_healthFrame: 14560553
-      Base-01_35: -1925332248
-      Base-01_0: -1773016937
-      Base-01_12: -714534460
-      Base-01_63: -160171860
-      Base-01_68: 420144693
-      Base-01_75: -543268524
-      Base-01_70: 799544311
-      Base-01_57: 1844253790
+      Base-01_62: 159065451
+      Base-01_50: 785978506
+      BrownPoint: -160171860
+      Base-01_61: 195476905
+      Base-01_33: 2009447182
+      Base-01_80: -391922770
+      Base-01_6: 136603814
+      Base-01_powerFrame: 2018947044
+      Base-01_45: 615931904
+      Base-01_79: -578694577
+      Base-01_55: -1561343604
+      Base-01_53: -1553083091
+      Base-01_47: 1940278061
+      Base-01_19: 1186386852
+      Base-01_healthRed: 1950317293
+      YellowButton: 1018503196
+      Base-01_9: -924617607
+      Base-01_26: 481691243
+      Base-01_66: 1114125106
+      Base-01_69: -277027555
+      Base-01_36: -688676665
+      Base-01_58: -276862575
+      Base-01_22: -1034228666
+      Base-01_38: -657967718
+      Base-01_48: 806116521
+      Base-01_56: 1167162666
+      Base-01_18: -1183252649
+      Base-01_23: 234537854
+      Base-01_54: 439647902
+      Base-01_faceFrame: 278848105
+      Base-01_59: 17108764
+      Base-01_52: -1733168732
+      Base-01_77: 14560553
+      Base-01_healthFrame: -1925332248
+      Base-01_35: -1773016937
+      Base-01_0: -43342437
+      joystick: -714534460
+      Base-01_12: -160171860
+      Base-01_68: -543268524
+      RedButton: -1833111797
+      Base-01_75: 799544311
+      Base-01_70: 1844253790
+      Base-01_57: 602554818
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
@@ -49,6 +50,7 @@ public class PlayerController : MonoBehaviour
     public VoidEventSO afterLoadSceneEvent;
     public VoidEventSO loadDataEvent;
     public VoidEventSO afterLoadDataEvent;
+    public VoidEventSO backToMenuEvent;
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -89,24 +91,27 @@ public class PlayerController : MonoBehaviour
         inputControl.Gameplay.Attack.started += PlayerAttack;
         //滑铲
         inputControl.Gameplay.Slide.started += Slide;
+        
+        inputControl.Enable();
     }
-
     
     private void OnEnable()
     {
-        inputControl.Enable();
+        
         sceneLoadEvent.LoadRequestEvent += OnLoadEvent;
         afterLoadSceneEvent.OnEventRaised += OnAfterSceneLoadedEvent;
         loadDataEvent.OnEventRaised += OnLoadDataEvent;
         afterLoadDataEvent.OnEventRaised += OnAfterLoadDataEvent;
+        backToMenuEvent.OnEventRaised += OnBackToMenuEvent;
     }
 
-    private void OnAfterLoadDataEvent()
+    #region 事件注册
+
+    //重置死亡状态
+    private void Restart()
     {
-        //Debug.Log("load finish");
         isDead = false;
     }
-
     //加载数据时
     private void OnLoadDataEvent()
     {
@@ -114,7 +119,11 @@ public class PlayerController : MonoBehaviour
         
     }
     //加载数据完成时
-    
+    private void OnAfterLoadDataEvent()
+    {
+        //Debug.Log("load finish");
+        Restart();
+    }
     //加载完成后关闭控制器
     private void OnAfterSceneLoadedEvent()
     {
@@ -126,7 +135,13 @@ public class PlayerController : MonoBehaviour
         inputControl.Gameplay.Disable();
         
     }
-
+    //加载到主菜单
+    private void OnBackToMenuEvent()
+    {
+        Restart();
+    }
+    
+    #endregion
     private void OnDisable()
     {
         inputControl.Disable();
@@ -134,6 +149,7 @@ public class PlayerController : MonoBehaviour
         afterLoadSceneEvent.OnEventRaised -= OnAfterSceneLoadedEvent;
         loadDataEvent.OnEventRaised -= OnLoadDataEvent;
         afterLoadDataEvent.OnEventRaised -= OnAfterLoadDataEvent;
+        backToMenuEvent.OnEventRaised -= OnBackToMenuEvent;
     }
 
     private void Update()

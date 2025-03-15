@@ -15,7 +15,7 @@ public class SceneLoader : MonoBehaviour,ISaveable
     [Header("事件监听")] 
     public SceneLoadEventSO LoadEventSO;
     public VoidEventSO newGameEvent;
-    
+    public VoidEventSO backToMenuEvent;
     private GameSceneSO currentScene;
     private GameSceneSO sceneToLoad;
     private Vector3 positionToGo;
@@ -29,6 +29,8 @@ public class SceneLoader : MonoBehaviour,ISaveable
     [Header("场景")]
     public GameSceneSO firstLoadScene;
     public GameSceneSO menuScene;
+    [Header("移动平台ui")] 
+    public GameObject mobileTouch;
     private void Awake()
     {
         // Addressables.LoadSceneAsync(firstLoadScene.sceneReference, LoadSceneMode.Additive);//静态类中的加载方法与下面的方法不同
@@ -47,6 +49,8 @@ public class SceneLoader : MonoBehaviour,ISaveable
     {
         LoadEventSO.LoadRequestEvent += OnLoadRequestEvent;
         newGameEvent.OnEventRaised += NewGameStart;
+        backToMenuEvent.OnEventRaised += OnBackToMenuEvent;
+        
         ISaveable saveable = this;
         saveable.RegisterSaveData();
     }
@@ -55,6 +59,8 @@ public class SceneLoader : MonoBehaviour,ISaveable
     {
         LoadEventSO.LoadRequestEvent -= OnLoadRequestEvent;
         newGameEvent.OnEventRaised -= NewGameStart;
+        backToMenuEvent.OnEventRaised -= OnBackToMenuEvent;
+        
         ISaveable saveable = this;
         saveable.UnregisterSaveData();
     }
@@ -62,9 +68,16 @@ public class SceneLoader : MonoBehaviour,ISaveable
     //开始新游戏
     private void NewGameStart()
     {
+        //Debug.Log("new start");
         sceneToLoad = firstLoadScene;
         // OnLoadRequestEvent(sceneToLoad,firstPosition,true);
         LoadEventSO.RaiseLoadRequestEvent(sceneToLoad,firstPosition,true);
+    }
+
+    private void OnBackToMenuEvent()
+    {
+        sceneToLoad = menuScene;
+        LoadEventSO.RaiseLoadRequestEvent(sceneToLoad,menuPosition,true);
     }
     /// <summary>
     /// 加载场景请求
@@ -98,7 +111,7 @@ public class SceneLoader : MonoBehaviour,ISaveable
         }
         yield return new WaitForSeconds(fadeTime);
         
-        //用广播事件调整血条
+        //用广播事件调整UI
         sceneUnloadEvent.LoadRequestEvent(sceneToLoad,positionToGo,true);
         
         yield return currentScene.sceneReference.UnLoadScene();
@@ -156,7 +169,7 @@ public class SceneLoader : MonoBehaviour,ISaveable
         var playerID = playerTrans.GetComponent<DataDefination>().ID;
         if (data.characterPosDict.ContainsKey(playerID))
         {
-            positionToGo = data.characterPosDict[playerID];
+            positionToGo = data.characterPosDict[playerID].ToVector3();
             sceneToLoad = data.GetSavedScene();
             OnLoadRequestEvent(sceneToLoad,positionToGo,true);
         }

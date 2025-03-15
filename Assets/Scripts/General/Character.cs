@@ -129,6 +129,7 @@ public class Character : MonoBehaviour,ISaveable
             //     }
             // }
             //Debug.Log("water");
+            if (currentHealth <= 0) return;
             currentHealth = 0;
             OnHealthChanged?.Invoke(this);
             OnDeath?.Invoke();//死亡并刷新血条UI
@@ -146,13 +147,13 @@ public class Character : MonoBehaviour,ISaveable
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
-            data.characterPosDict[GetDataID().ID] = transform.position;
+            data.characterPosDict[GetDataID().ID] = new SerializableVector3(transform.position);
             data.floatSaveDate[GetDataID().ID+"health"]= currentHealth;
             data.floatSaveDate[GetDataID().ID+"power"]= currentPower;
         }
         else
         {
-            data.characterPosDict.Add(GetDataID().ID, transform.position);
+            data.characterPosDict.Add(GetDataID().ID, new SerializableVector3(transform.position));
             data.floatSaveDate.Add(GetDataID().ID+"health",currentHealth);
             data.floatSaveDate.Add(GetDataID().ID+"power",currentPower);
         }
@@ -162,7 +163,7 @@ public class Character : MonoBehaviour,ISaveable
     {
         if (data.characterPosDict.ContainsKey(GetDataID().ID))
         {
-            transform.position = data.characterPosDict[GetDataID().ID];
+            transform.position = data.characterPosDict[GetDataID().ID].ToVector3();
             currentHealth = data.floatSaveDate[GetDataID().ID+"health"];
             currentPower= data.floatSaveDate[GetDataID().ID+"power"];
             
